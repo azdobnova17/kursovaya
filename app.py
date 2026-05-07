@@ -68,10 +68,10 @@ with st.container():
 
     st.markdown("""
     📌 Функции:
-    - x²  
-    - sin(x)  
-    - cos(x)  
-    - eˣ  
+    - x² (парабола)
+    - sin(x) (переодическая волна)
+    - cos(x) (волна со сдвигом)
+    - eˣ (экспонециальный рост)
     """)
 
     st.markdown('</div>', unsafe_allow_html=True)
