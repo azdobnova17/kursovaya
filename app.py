@@ -1,6 +1,7 @@
 ﻿import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 st.set_page_config(
     page_title="Интеграл методом прямоугольников",
@@ -10,74 +11,142 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-.main-title {
-    text-align: center;
-    font-size: 34px;
-    font-weight: bold;
-    color: #5b7cfa;
+
+body {
+    background: linear-gradient(135deg, #eaf2ff, #fff1f7, #f5f9ff, #ffffff);
 }
 
-.subtitle {
+.title {
     text-align: center;
-    font-size: 18px;
-    color: #7a8aa8;
+    font-size: 40px;
+    font-weight: 800;
+    color: #4f6ef7;
+    text-shadow: 0 3px 15px rgba(79,110,247,0.25);
 }
 
-.block {
-    background-color: #f4f7ff;
-    padding: 15px;
+.blue {
+    background: rgba(219,234,254,0.65);
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #93c5fd;
+    margin-bottom: 10px;
+}
+
+.stButton > button {
+    background: linear-gradient(135deg, #7c8cff, #ff9ecb);
+    color: white;
     border-radius: 12px;
-    margin-bottom: 12px;
-    border: 1px solid #d9e2ff;
-    color: #2c3e50;
+    padding: 10px 20px;
+    font-weight: 700;
+    border: none;
 }
 
-.result-box {
-    background-color: #e9f8ef;
-    padding: 12px;
-    border-radius: 10px;
-    color: #1e7a4a;
-    font-weight: bold;
-    border: 1px solid #bfe8cf;
+.result {
+    background: #e9fff3;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #9be7c4;
+    font-weight: 700;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="main-title">📊 Вычисление интеграла</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Метод прямоугольников</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">📊 Вычисление интеграла</div>', unsafe_allow_html=True)
 
 st.divider()
 
-st.markdown("""
-<div class="block">
-📌 <b>Выбор функции</b> определяет график, под которым считается интеграл.<br><br>
-x² → парабола<br>
-sin(x) → синус<br>
-cos(x) → косинус<br>
-eˣ → экспонента
-</div>
-""", unsafe_allow_html=True)
+with st.container():
+    st.markdown('<div class="blue">', unsafe_allow_html=True)
 
-st.markdown("""
-<div class="block">
-📌 <b>Метод прямоугольников</b><br><br>
+    st.markdown("### 📌 Что такое интеграл")
 
-Разбиение интервала [a, b] на n частей и суммирование площадей прямоугольников.
+    st.markdown("""
+    Интеграл — это способ найти площадь под графиком функции на отрезке.  
+    Он показывает суммарное накопление значений функции.
+    """)
 
-<br><br>
+    st.markdown("""
+    📌 Функции:
+    - x²  
+    - sin(x)  
+    - cos(x)  
+    - eˣ  
+    """)
 
-<b>Формулы:</b><br>
+    st.markdown('</div>', unsafe_allow_html=True)
 
-$$
-h = \\frac{b - a}{n}
-$$
 
-$$
-I \\approx \\sum_{i=0}^{n-1} f(a + i \\cdot h) \\cdot h
-$$
+with st.container():
+    st.markdown('<div class="blue">', unsafe_allow_html=True)
 
-</div>
-""", unsafe_allow_html=True)
+    st.markdown("### 📌 Численное вычисление интеграла")
+
+    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum_{i=1}^{n} f(x_i)\cdot h")
+    st.latex(r"h = \frac{b-a}{n}")
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+
+with st.container():
+    st.markdown('<div class="blue">', unsafe_allow_html=True)
+
+    st.markdown("### 📌 1. Левые прямоугольники")
+
+    st.markdown("""
+Метод использует значение функции в левой точке каждого отрезка.
+
+📌 Особенности:
+- часто даёт занижение площади
+- быстрее считается
+- ошибка уменьшается при увеличении n
+""")
+
+    st.latex(r"x_i = a + (i-1)\cdot h")
+    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+
+with st.container():
+    st.markdown('<div class="blue">', unsafe_allow_html=True)
+
+    st.markdown("### 📌 2. Правые прямоугольники")
+
+    st.markdown("""
+Метод использует значение функции в правой точке каждого отрезка.
+
+📌 Особенности:
+- часто даёт завышение площади
+- чувствителен к росту функции
+- простая реализация
+""")
+
+    st.latex(r"x_i = a + i\cdot h")
+    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+
+with st.container():
+    st.markdown('<div class="blue">', unsafe_allow_html=True)
+
+    st.markdown("### 📌 3. Средние прямоугольники")
+
+    st.markdown("""
+Метод использует значение функции в середине отрезка.
+
+📌 Особенности:
+- самый точный метод
+- балансирует ошибку левого и правого
+- используется в инженерных задачах
+""")
+
+    st.latex(r"x_i = a + (i - 0.5)\cdot h")
+    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_{i+1/2})\cdot h")
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
 
 def f(x, function_name):
     if function_name == "x^2":
@@ -89,80 +158,98 @@ def f(x, function_name):
     elif function_name == "e^x":
         return np.exp(x)
 
-def plot_graph(a, b, n, function_name):
-    x = np.linspace(a, b, 400)
-    y = f(x, function_name)
 
-    fig, ax = plt.subplots()
-    ax.plot(x, y, linewidth=2, color="#5b7cfa")
+def get_x(a, h, i, method):
+    if method == "Левые прямоугольники":
+        return a + i * h
+    elif method == "Правые прямоугольники":
+        return a + (i + 1) * h
+    elif method == "Средние прямоугольники":
+        return a + (i + 0.5) * h
 
-    h = (b - a) / n
-
-    for i in range(int(n)):
-        xi = a + i * h
-        ax.bar(xi, f(xi, function_name), width=h, align='edge', alpha=0.3, color="#a6d6ff")
-
-    ax.set_title("График функции и прямоугольники")
-    ax.grid(True, alpha=0.3)
-
-    return fig
 
 function_name = st.selectbox(
     "Выберите функцию",
     ["x^2", "sin(x)", "cos(x)", "e^x"]
 )
 
+method = st.selectbox(
+    "Выберите метод",
+    ["Левые прямоугольники", "Правые прямоугольники", "Средние прямоугольники"]
+)
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
     a = st.number_input("Начало (a)", value=0.0)
-
 with col2:
     b = st.number_input("Конец (b)", value=1.0)
-
 with col3:
     n = st.number_input("Разбиения (n)", value=10)
 
-st.divider()
 
 if st.button("🚀 Вычислить", use_container_width=True):
 
-    h = (b - a) / int(n)
-
-    st.markdown("### 📌 Процесс вычисления")
-
-    st.write(f"h = (b - a) / n = ({b} - {a}) / {int(n)} = {h}")
+    n = int(n)
+    h = (b - a) / n
 
     sum_result = 0
-    steps = []
 
-    for i in range(int(n)):
-        x = a + i * h
+    fig, ax = plt.subplots()
+
+    x_vals = np.linspace(a, b, 400)
+    ax.plot(x_vals, f(x_vals, function_name), color="#4f6ef7")
+
+    placeholder = st.empty()
+
+    for i in range(n):
+
+        x = get_x(a, h, i, method)
         fx = f(x, function_name)
-        area = fx * h
-        sum_result += area
+        sum_result += fx * h
 
-        steps.append(f"i={i}, x={round(x,3)}, f(x)={round(fx,3)}, площадь={round(area,3)}")
+        ax.bar(
+            x,
+            fx,
+            width=h,
+            align='edge',
+            color="#60a5fa",
+            alpha=0.5
+        )
 
-    st.markdown("### 📊 Шаги вычисления:")
+        placeholder.pyplot(fig)
+        time.sleep(0.1)
 
-    for s in steps[:15]:
-        st.write(s)
+    with st.container():
+        st.markdown('<div class="blue">', unsafe_allow_html=True)
 
-    if int(n) > 15:
-        st.write("... (показаны первые 15 шагов)")
+        st.markdown("### 📌 Решение с подстановкой значений")
 
-    st.markdown("### 📌 Итог:")
+        st.latex(fr"h = \frac{{{b} - {a}}}{{{n}}} = {h}")
 
-    st.markdown(f"""
-    <div class="result-box">
-    Интеграл ≈ {sum_result}
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown("### 📌 Первые шаги:")
 
-    st.subheader("📈 График")
+        preview_n = min(5, n)
 
-    fig = plot_graph(a, b, int(n), function_name)
-    st.pyplot(fig)
+        for i in range(preview_n):
+
+            x = get_x(a, h, i, method)
+            fx = f(x, function_name)
+            area = fx * h
+
+            st.markdown(
+                f"""
+**i = {i+1}**
+
+xᵢ = {x:.4f}  
+f(xᵢ) = {fx:.4f}  
+Sᵢ = {area:.4f}
+"""
+            )
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+
+    st.markdown(f'<div class="result">Интеграл ≈ {sum_result}</div>', unsafe_allow_html=True)
 
     st.balloons()
