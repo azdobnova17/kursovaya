@@ -24,12 +24,19 @@ body {
     text-shadow: 0 3px 15px rgba(79,110,247,0.25);
 }
 
-.blue {
-    background: rgba(219,234,254,0.65);
+.card {
     padding: 14px;
     border-radius: 14px;
-    border: 1px solid #93c5fd;
     margin-bottom: 10px;
+    border: 1px solid rgba(147, 197, 253, 0.35);
+}
+
+.blue {
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
+}
+
+.pink {
+    background: linear-gradient(135deg, #ede9fe, #f5f3ff);
 }
 
 .stButton > button {
@@ -42,7 +49,7 @@ body {
 }
 
 .result {
-    background: #e9fff3;
+    background: linear-gradient(135deg, #dcfce7, #ecfdf5);
     padding: 14px;
     border-radius: 14px;
     border: 1px solid #9be7c4;
@@ -52,46 +59,46 @@ body {
 </style>
 """, unsafe_allow_html=True)
 
+# ---------------- TITLE ----------------
 st.markdown('<div class="title">📊 Вычисление интеграла</div>', unsafe_allow_html=True)
+
+st.markdown("""
+<div style="text-align:center; font-size:18px; color:#64748b; margin-bottom:10px;">
+Методом прямоугольников
+</div>
+""", unsafe_allow_html=True)
 
 st.divider()
 
-
+# ---------------- WHAT IS INTEGRAL ----------------
 with st.container():
     st.markdown("""
-    <div class="blue">
+    <div class="card blue">
 
     ### 📌 Что такое интеграл
 
     Интеграл — это способ найти площадь под графиком функции на отрезке.  
     Он показывает суммарное накопление значений функции.
 
+    Метод прямоугольников — численный метод, где площадь разбивается на маленькие прямоугольники и суммируется.
+
     📌 Функции:
-    - x² (парабола)
-    - sin(x) (переодическая волна)
-    - cos(x) (волна со сдвигом)
-    - eˣ (экспонециальный рост)
+    - x²
+    - sin(x)
+    - cos(x)
+    - eˣ
 
     </div>
     """, unsafe_allow_html=True)
 
+# ---------------- FORMULAS ----------------
+st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum_{i=1}^{n} f(x_i)\cdot h")
+st.latex(r"h = \frac{b-a}{n}")
 
+# ---------------- LEFT ----------------
 with st.container():
     st.markdown("""
-    <div class="blue">
-
-    ### 📌 Численное вычисление интеграла
-
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum_{i=1}^{n} f(x_i)\cdot h")
-    st.latex(r"h = \frac{b-a}{n}")
-
-
-with st.container():
-    st.markdown("""
-    <div class="blue">
+    <div class="card pink">
 
     ### 📌 1. Левые прямоугольники
 
@@ -105,13 +112,13 @@ with st.container():
     </div>
     """, unsafe_allow_html=True)
 
-    st.latex(r"x_i = a + (i-1)\cdot h")
-    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
+st.latex(r"x_i = a + (i-1)\cdot h")
+st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
 
-
+# ---------------- RIGHT ----------------
 with st.container():
     st.markdown("""
-    <div class="blue">
+    <div class="card blue">
 
     ### 📌 2. Правые прямоугольники
 
@@ -125,13 +132,13 @@ with st.container():
     </div>
     """, unsafe_allow_html=True)
 
-    st.latex(r"x_i = a + i\cdot h")
-    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
+st.latex(r"x_i = a + i\cdot h")
+st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
 
-
+# ---------------- MIDDLE ----------------
 with st.container():
     st.markdown("""
-    <div class="blue">
+    <div class="card pink">
 
     ### 📌 3. Средние прямоугольники
 
@@ -139,16 +146,16 @@ with st.container():
 
     📌 Особенности:
     - самый точный метод
-    - балансирует ошибку левого и правого
+    - балансирует ошибку
     - используется в инженерных задачах
 
     </div>
     """, unsafe_allow_html=True)
 
-    st.latex(r"x_i = a + (i - 0.5)\cdot h")
-    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_{i+1/2})\cdot h")
+st.latex(r"x_i = a + (i - 0.5)\cdot h")
+st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_{i+1/2})\cdot h")
 
-
+# ---------------- FUNCTIONS ----------------
 def f(x, function_name):
     if function_name == "x^2":
         return x ** 2
@@ -188,7 +195,7 @@ with col2:
 with col3:
     n = st.number_input("Разбиения (n)", value=10)
 
-
+# ---------------- CALCULATION ----------------
 if st.button("🚀 Вычислить", use_container_width=True):
 
     n = int(n)
@@ -223,7 +230,7 @@ if st.button("🚀 Вычислить", use_container_width=True):
 
     with st.container():
         st.markdown("""
-        <div class="blue">
+        <div class="card blue">
 
         ### 📌 Решение с подстановкой значений
 
@@ -233,9 +240,9 @@ if st.button("🚀 Вычислить", use_container_width=True):
         st.latex(fr"h = \frac{{{b} - {a}}}{{{n}}} = {h}")
 
         st.markdown("""
-        <div class="blue">
+        <div class="card pink">
 
-        ### 📌 Первые шаги:
+        ### 📌 Первые шаги
 
         </div>
         """, unsafe_allow_html=True)
@@ -243,20 +250,17 @@ if st.button("🚀 Вычислить", use_container_width=True):
         preview_n = min(5, n)
 
         for i in range(preview_n):
-
             x = get_x(a, h, i, method)
             fx = f(x, function_name)
             area = fx * h
 
-            st.markdown(
-                f"""
-**i = {i+1}**
+            st.markdown(f"""
+i = {i+1}
 
 xᵢ = {x:.4f}  
 f(xᵢ) = {fx:.4f}  
 Sᵢ = {area:.4f}
-"""
-            )
+""")
 
     st.markdown(f'<div class="result">Интеграл ≈ {sum_result}</div>', unsafe_allow_html=True)
 
