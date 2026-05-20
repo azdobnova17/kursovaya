@@ -59,7 +59,6 @@ body {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- TITLE ----------------
 st.markdown('<div class="title">📊 Вычисление интеграла</div>', unsafe_allow_html=True)
 
 st.markdown("""
@@ -70,92 +69,93 @@ st.markdown("""
 
 st.divider()
 
-# ---------------- WHAT IS INTEGRAL ----------------
-with st.container():
-    st.markdown("""
-    <div class="card blue">
+# =========================
+# ТЕОРИЯ ВО ВКЛАДКЕ
+# =========================
 
-    ### 📌 Что такое интеграл
+with st.expander("📚 Теоретическая часть"):
 
-    Интеграл — это способ найти площадь под графиком функции на отрезке.  
-    Он показывает суммарное накопление значений функции.
+    with st.container():
+        st.markdown("""
+        <div class="card blue">
 
-    Метод прямоугольников — численный метод, где площадь разбивается на маленькие прямоугольники и суммируется.
+        ### 📌 Что такое интеграл
 
-    📌 Функции:
-    - x²
-    - sin(x)
-    - cos(x)
-    - eˣ
+        Интеграл — это способ найти площадь под графиком функции на отрезке.  
+        Он показывает суммарное накопление значений функции.
 
-    </div>
-    """, unsafe_allow_html=True)
+        Метод прямоугольников — численный метод, где площадь разбивается на маленькие прямоугольники и суммируется.
 
-# ---------------- FORMULAS ----------------
-st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum_{i=1}^{n} f(x_i)\cdot h")
-st.latex(r"h = \frac{b-a}{n}")
+        📌 Функции:
+        - x²
+        - sin(x)
+        - cos(x)
+        - eˣ
 
-# ---------------- LEFT ----------------
-with st.container():
-    st.markdown("""
-    <div class="card pink">
+        </div>
+        """, unsafe_allow_html=True)
 
-    ### 📌 1. Левые прямоугольники
+    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum_{i=1}^{n} f(x_i)\cdot h")
+    st.latex(r"h = \frac{b-a}{n}")
 
-    Метод использует значение функции в левой точке каждого отрезка.
+    with st.container():
+        st.markdown("""
+        <div class="card pink">
 
-    📌 Особенности:
-    - часто даёт занижение площади
-    - быстрее считается
-    - ошибка уменьшается при увеличении n
+        ### 📌 1. Левые прямоугольники
 
-    </div>
-    """, unsafe_allow_html=True)
+        Метод использует значение функции в левой точке каждого отрезка.
 
-st.latex(r"x_i = a + (i-1)\cdot h")
-st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
+        📌 Особенности:
+        - часто даёт занижение площади
+        - быстрее считается
+        - ошибка уменьшается при увеличении n
 
-# ---------------- RIGHT ----------------
-with st.container():
-    st.markdown("""
-    <div class="card blue">
+        </div>
+        """, unsafe_allow_html=True)
 
-    ### 📌 2. Правые прямоугольники
+    st.latex(r"x_i = a + (i-1)\cdot h")
+    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
 
-    Метод использует значение функции в правой точке каждого отрезка.
+    with st.container():
+        st.markdown("""
+        <div class="card blue">
 
-    📌 Особенности:
-    - часто даёт завышение площади
-    - чувствителен к росту функции
-    - простая реализация
+        ### 📌 2. Правые прямоугольники
 
-    </div>
-    """, unsafe_allow_html=True)
+        Метод использует значение функции в правой точке каждого отрезка.
 
-st.latex(r"x_i = a + i\cdot h")
-st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
+        📌 Особенности:
+        - часто даёт завышение площади
+        - чувствителен к росту функции
+        - простая реализация
 
-# ---------------- MIDDLE ----------------
-with st.container():
-    st.markdown("""
-    <div class="card pink">
+        </div>
+        """, unsafe_allow_html=True)
 
-    ### 📌 3. Средние прямоугольники
+    st.latex(r"x_i = a + i\cdot h")
+    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_i)\cdot h")
 
-    Метод использует значение функции в середине отрезка.
+    with st.container():
+        st.markdown("""
+        <div class="card pink">
 
-    📌 Особенности:
-    - самый точный метод
-    - балансирует ошибку
-    - используется в инженерных задачах
+        ### 📌 3. Средние прямоугольники
 
-    </div>
-    """, unsafe_allow_html=True)
+        Метод использует значение функции в середине отрезка.
 
-st.latex(r"x_i = a + (i - 0.5)\cdot h")
-st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_{i+1/2})\cdot h")
+        📌 Особенности:
+        - самый точный метод
+        - балансирует ошибку
+        - используется в инженерных задачах
 
-# ---------------- FUNCTIONS ----------------
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.latex(r"x_i = a + (i - 0.5)\cdot h")
+    st.latex(r"\int_{a}^{b} f(x)\,dx \approx \sum f(x_{i+1/2})\cdot h")
+
+
 def f(x, function_name):
     if function_name == "x^2":
         return x ** 2
@@ -195,7 +195,6 @@ with col2:
 with col3:
     n = st.number_input("Разбиения (n)", value=10)
 
-# ---------------- CALCULATION ----------------
 if st.button("🚀 Вычислить", use_container_width=True):
 
     n = int(n)
@@ -228,33 +227,40 @@ if st.button("🚀 Вычислить", use_container_width=True):
         placeholder.pyplot(fig)
         time.sleep(0.1)
 
-    with st.container():
-        st.markdown("""
-        <div class="card blue">
+    # =========================
+    # ПОШАГОВОЕ РЕШЕНИЕ ВО ВКЛАДКЕ
+    # =========================
 
-        ### 📌 Решение с подстановкой значений
+    with st.expander("📝 Пошаговое решение"):
 
-        </div>
-        """, unsafe_allow_html=True)
+        with st.container():
+            st.markdown("""
+            <div class="card blue">
 
-        st.latex(fr"h = \frac{{{b} - {a}}}{{{n}}} = {h}")
+            ### 📌 Решение с подстановкой значений
 
-        st.markdown("""
-        <div class="card pink">
+            </div>
+            """, unsafe_allow_html=True)
 
-        ### 📌 Первые шаги
+            st.latex(fr"h = \frac{{{b} - {a}}}{{{n}}} = {h}")
 
-        </div>
-        """, unsafe_allow_html=True)
+            with st.container():
+                st.markdown("""
+                <div class="card pink">
 
-        preview_n = min(5, n)
+                ### 📌 Первые шаги
 
-        for i in range(preview_n):
-            x = get_x(a, h, i, method)
-            fx = f(x, function_name)
-            area = fx * h
+                </div>
+                """, unsafe_allow_html=True)
 
-            st.markdown(f"""
+            preview_n = min(5, n)
+
+            for i in range(preview_n):
+                x = get_x(a, h, i, method)
+                fx = f(x, function_name)
+                area = fx * h
+
+                st.markdown(f"""
 i = {i+1}
 
 xᵢ = {x:.4f}  
